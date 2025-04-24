@@ -2,11 +2,11 @@ class Student {
   readonly id: number;
   name: string;
   notes: number[] = [];
-  nextStudent = 1;
+  static nextStudent = 1;
 
   constructor(name: string) {
     this.name = name;
-    this.id = this.nextStudent++;
+    this.id = Student.nextStudent++;
   }
 
   notesStudent(note: number): void {
@@ -95,6 +95,25 @@ class GradeBook {
     return (studentsMedia / totalStudents).toFixed(2);
   }
 
+  getStudentsMediana() {
+    if (this.students.length === 0) return "Não encontrado!";
+
+    const medias = this.students
+      .map((student) => student.media())
+      .sort((a, b) => a - b);
+
+    const middleIndex = Math.floor(medias.length / 2);
+
+    let mediana: number;
+    if (medias.length % 2 === 0) {
+      mediana = (medias[middleIndex - 1] + medias[middleIndex]) / 2;
+    } else {
+      mediana = medias[middleIndex];
+    }
+
+    return mediana.toFixed(2);
+  }
+
   getStudentsLetterNotes() {
     const studentsLetterNotes = this.students.reduce(
       (acc, student) => {
@@ -124,7 +143,8 @@ class GradeBook {
     const totalStudents = this.students.length;
     const studentsMedia = this.getStudentsMedia();
     const studentsLetterNotes = this.getStudentsLetterNotes();
-    return `Total de alunos: ${totalStudents}.\nMédia geral: ${studentsMedia}.\nMediana: NÃO FEITO.\nDistribuição de letras:\n${Object.entries(
+    const medianaStudents = this.getStudentsMediana();
+    return `Total de alunos: ${totalStudents}.\nMédia geral: ${studentsMedia}.\nMediana: ${medianaStudents}.\nDistribuição de letras:\n${Object.entries(
       studentsLetterNotes
     )
       .map(([letter, note]) => `${letter}: ${note}`)
@@ -134,23 +154,28 @@ class GradeBook {
 
 const gradeBook = new GradeBook();
 const student1 = gradeBook.addStudent("Ana");
-gradeBook.addNoteToStudent(student1.id, 50);
-gradeBook.addNoteToStudent(student1.id, 60);
+gradeBook.addNoteToStudent(student1.id, 90);
+gradeBook.addNoteToStudent(student1.id, 90);
+gradeBook.addNoteToStudent(student1.id, 90);
 
 const student2 = gradeBook.addStudent("Bruno");
-gradeBook.addNoteToStudent(student2.id, 50);
-gradeBook.addNoteToStudent(student2.id, 60);
+gradeBook.addNoteToStudent(student2.id, 70);
+gradeBook.addNoteToStudent(student2.id, 70);
+gradeBook.addNoteToStudent(student2.id, 70);
 
 const student3 = gradeBook.addStudent("Carla");
 gradeBook.addNoteToStudent(student3.id, 60);
-gradeBook.addNoteToStudent(student3.id, 60);
+gradeBook.addNoteToStudent(student3.id, 55);
+gradeBook.addNoteToStudent(student3.id, 50);
 
 const student4 = gradeBook.addStudent("Diego");
-gradeBook.addNoteToStudent(student4.id, 60);
-gradeBook.addNoteToStudent(student4.id, 60);
+gradeBook.addNoteToStudent(student4.id, 30);
+gradeBook.addNoteToStudent(student4.id, 30);
+gradeBook.addNoteToStudent(student4.id, 30);
 
 const student5 = gradeBook.addStudent("Eva");
-gradeBook.addNoteToStudent(student5.id, 60);
-gradeBook.addNoteToStudent(student5.id, 60);
+gradeBook.addNoteToStudent(student5.id, 10);
+gradeBook.addNoteToStudent(student5.id, 10);
+gradeBook.addNoteToStudent(student5.id, 10);
 
 console.log(gradeBook.summaryGradeBook());
