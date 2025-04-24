@@ -1,0 +1,12 @@
+{
+  "devDependencies": {
+    "tsx": "^4.19.3"
+  },
+  "name": "alunos",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "tsx watch src/main.ts"
+  }
+}
